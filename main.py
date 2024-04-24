@@ -50,7 +50,7 @@ if __name__ == '__main__':
         is_write_header = False
         for i in range(start_game, end_game):
             print(i)
-            match: dict = parsing(read_html_file(f'./{i}.html'))
+            match: dict = parsing(read_html_file(os.path.join(html_dir, f'./{i}.html')))
             for k in match.keys():
                 for m in match.get(k):
                     w = csv.DictWriter(f, m.keys(), delimiter="\t")
