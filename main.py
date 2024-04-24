@@ -59,5 +59,5 @@ if __name__ == '__main__':
                         is_write_header = True
                     w.writerow(m)
 
-    for file_name in range(start_game, end_game):
+    for file_name in range(start_game, end_game + 1):
         os.remove(os.path.join(html_dir, str(file_name) + '.html'))  # удаление html файлов
