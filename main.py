@@ -45,12 +45,12 @@ def download_sites(start, end):
             print(f'download [ {i} ]\t[Error]')
 
 
-if __name__ == '__main__':
-    start_game = 21829  # с какого номера скачать матчи
-    end_game = 21850  # по какой включительно
+def del_files(start_game, end_game):
+    for file_name in range(start_game, end_game + 1):
+        os.remove(os.path.join(html_dir, str(file_name) + '.html'))  # удаление html файлов
 
-    download_sites(start_game, end_game)
 
+def create_final_csv_file():
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
         for i in range(start_game, end_game + 1):
@@ -67,5 +67,11 @@ if __name__ == '__main__':
                     w.writerow(m)
             print(f'[OK]\t{i}')
 
-    # for file_name in range(start_game, end_game + 1):
-    #     os.remove(os.path.join(html_dir, str(file_name) + '.html'))  # удаление html файлов
+
+if __name__ == '__main__':
+    start_game = 21829  # с какого номера скачать матчи
+    end_game = 21850  # по какой включительно
+
+    download_sites(start_game, end_game)
+    create_final_csv_file(start_game, end_game)
+    del_files(start_game, end_game)
