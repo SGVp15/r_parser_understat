@@ -47,7 +47,10 @@ def download_sites(start, end):
 
 def del_files(start_game, end_game):
     for file_name in range(start_game, end_game + 1):
-        os.remove(os.path.join(html_dir, str(file_name) + '.html'))  # удаление html файлов
+        try:
+            os.remove(os.path.join(html_dir, f'{file_name}.html'))
+        except FileNotFoundError:
+            pass
 
 
 def create_final_csv_file(start_game, end_game):
