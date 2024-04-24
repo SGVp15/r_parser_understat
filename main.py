@@ -50,12 +50,12 @@ def del_files(start_game, end_game):
         os.remove(os.path.join(html_dir, str(file_name) + '.html'))  # удаление html файлов
 
 
-def create_final_csv_file():
+def create_final_csv_file(start_game, end_game):
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
         for i in range(start_game, end_game + 1):
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'{i}.html')))
-            if type(match) != dict:
+            if match:
                 print(f'[Error]\t{i}')
                 continue
             for k in match.keys():
