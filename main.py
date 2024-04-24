@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
-        for i in range(start_game, end_game):
+        for i in range(start_game, end_game + 1):
             print(i)
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'./{i}.html')))
             for k in match.keys():
