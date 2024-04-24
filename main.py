@@ -40,7 +40,9 @@ def download_sites(start, end):
         if r.status_code == 200:
             with open(os.path.join(html_dir, f'{i}.html'), 'wb') as f:
                 f.write(s)
-        print(f'download [ {i} ]')
+            print(f'download [ {i} ]')
+        else:
+            print(f'download [ {i} ]\t[Error]')
 
 
 if __name__ == '__main__':
