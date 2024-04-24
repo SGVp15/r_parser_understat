@@ -53,7 +53,7 @@ if __name__ == '__main__':
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'./{i}.html')))
             for k in match.keys():
                 for m in match.get(k):
-                    w = csv.DictWriter(f, m.keys(), delimiter="\t")
+                    w = csv.DictWriter(f, m.keys(), delimiter=";")
                     if not is_write_header:
                         w.writeheader()
                         is_write_header = True
