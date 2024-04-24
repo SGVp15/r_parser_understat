@@ -55,7 +55,7 @@ def create_final_csv_file(start_game, end_game):
         is_write_header = False
         for i in range(start_game, end_game + 1):
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'{i}.html')))
-            if match:
+            if type(match) is not dict:
                 print(f'[Error]\t{i}')
                 continue
             for k in match.keys():
