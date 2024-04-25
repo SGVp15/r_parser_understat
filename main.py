@@ -1,10 +1,11 @@
 import csv
-import re
-import os
-import requests
 import json
+import os
+import re
 
-from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, BLOCKED_KEY, DOWNLOAD_SITES, \
+import requests
+
+from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, DOWNLOAD_SITES, \
     DELETE_HTML_FILES, COLUMNS_EXCEL
 
 
@@ -55,12 +56,6 @@ def del_files(start_game, end_game):
             pass
 
 
-def delete_keys(input_dict: dict, keys=BLOCKED_KEY):
-    for key in BLOCKED_KEY:
-        input_dict.pop(key, '')
-    return input_dict
-
-
 def create_final_csv_file(start_game, end_game):
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
@@ -73,17 +68,16 @@ def create_final_csv_file(start_game, end_game):
                 for num in match.get(a_h).keys():
                     m = match[a_h][num]
                     m['match_id'] = match_id
-                    m = delete_keys(m)
 
                     w = csv.DictWriter(f, COLUMNS_EXCEL, delimiter=";")
                     if not is_write_header:
                         w.writeheader()
                         is_write_header = True
-                    s=''
+                    s = ''
                     for k in COLUMNS_EXCEL:
                         s += f'{m.get(k)};'
-                    s+='\n'
-                    s = s.replace('.',',')
+                    s += '\n'
+                    s = s.replace('.', ',')
                     f.write(s)
             print(f'[OK]\t{match_id}')
 
