@@ -8,7 +8,8 @@ from config import url_base, export_csv_file, html_dir
 
 
 def parsing(s: str):
-    result = re.findall(r"JSON\.parse\('(.*)'\)", s)
+    result = re.findall(r"var rostersData	= JSON\.parse\('(.*)'\)", s)
+    print()
     if not result:
         return ''
     s = result[0]
@@ -61,8 +62,9 @@ def create_final_csv_file(start_game, end_game):
             if type(match) is not dict:
                 print(f'[Error]\t{i}')
                 continue
-            for k in match.keys():
-                for m in match.get(k):
+            for a_h in match.keys():
+                for num in match.get(a_h).keys():
+                    m = match[a_h][num]
                     w = csv.DictWriter(f, m.keys(), delimiter=";")
                     if not is_write_header:
                         w.writeheader()
@@ -75,6 +77,6 @@ if __name__ == '__main__':
     start_game = 21829  # с какого номера скачать матчи
     end_game = 21850  # по какой включительно
 
-    download_sites(start_game, end_game)
+    # download_sites(start_game, end_game)
     create_final_csv_file(start_game, end_game)
-    del_files(start_game, end_game)
+    # del_files(start_game, end_game)
