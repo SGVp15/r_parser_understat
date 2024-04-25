@@ -4,7 +4,7 @@ import os
 import requests
 import json
 
-from config import url_base, export_csv_file, html_dir, start_game, end_game
+from config import url_base, export_csv_file, html_dir, start_game, end_game, blocked_key
 
 
 def parsing(s: str):
@@ -54,6 +54,12 @@ def del_files(start_game, end_game):
             pass
 
 
+def del_keys(m: dict):
+    for key in blocked_key:
+        m.pop(key)
+    return m
+
+
 def create_final_csv_file(start_game, end_game):
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
@@ -64,6 +70,7 @@ def create_final_csv_file(start_game, end_game):
                 continue
             for a_h in match.keys():
                 for num in match.get(a_h).keys():
+                    m = del_keys(m)
                     m = match[a_h][num]
                     m['match_id'] = match_id
                     w = csv.DictWriter(f, m.keys(), delimiter=";")
