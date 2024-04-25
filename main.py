@@ -83,6 +83,7 @@ def create_final_csv_file(start_game, end_game):
                     for k in COLUMNS_EXCEL:
                         s += f'{m.get(k)};'
                     s+='\n'
+                    s = s.replace('.',',')
                     f.write(s)
             print(f'[OK]\t{match_id}')
 
