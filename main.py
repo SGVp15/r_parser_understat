@@ -4,7 +4,7 @@ import os
 import requests
 import json
 
-from config import url_base, export_csv_file, html_dir, start_game, end_game, blocked_key
+from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, BLOCKED_KEY, DOWNLOAD_SITES, DELETE_HTML_FILES
 
 
 def parsing(s: str):
@@ -54,10 +54,10 @@ def del_files(start_game, end_game):
             pass
 
 
-def del_keys(m: dict):
-    for key in blocked_key:
-        m.pop(key)
-    return m
+def delete_keys(input_dict: dict, keys=BLOCKED_KEY):
+    for key in BLOCKED_KEY:
+        input_dict.pop(key, '')
+    return input_dict
 
 
 def create_final_csv_file(start_game, end_game):
@@ -70,9 +70,9 @@ def create_final_csv_file(start_game, end_game):
                 continue
             for a_h in match.keys():
                 for num in match.get(a_h).keys():
-                    m = del_keys(m)
                     m = match[a_h][num]
                     m['match_id'] = match_id
+                    m = delete_keys(m)
                     w = csv.DictWriter(f, m.keys(), delimiter=";")
                     if not is_write_header:
                         w.writeheader()
@@ -82,6 +82,8 @@ def create_final_csv_file(start_game, end_game):
 
 
 if __name__ == '__main__':
-    download_sites(start_game, end_game)
-    create_final_csv_file(start_game, end_game)
-    del_files(start_game, end_game)
+    if DOWNLOAD_SITES:
+        download_sites(START_GAME, END_GAME)
+    create_final_csv_file(START_GAME, END_GAME)
+    if DELETE_HTML_FILES:
+        del_files(START_GAME, END_GAME)

@@ -1,15 +1,13 @@
-start_game = 21829  # с какого номера скачать матчи
-end_game = 21850  # по какой включительно
-
-blocked_key = []
-
-
-
-
-
-
-
 import os
+
+START_GAME = 21829  # с какого номера скачать матчи
+END_GAME = 21850  # по какой включительно
+
+COLUMNS_EXCEL = []
+BLOCKED_KEY = []
+
+DOWNLOAD_SITES = True
+DELETE_HTML_FILES = True
 
 url_base = 'https://understat.com/match/'
 
