@@ -3,10 +3,9 @@ import os
 START_GAME = 21829  # с какого номера скачать матчи
 END_GAME = 21850  # по какой включительно
 
-COLUMNS_EXCEL = []
-BLOCKED_KEY = []
+COLUMNS_EXCEL = ['player_id', 'team_id']
 
-DOWNLOAD_SITES = True
+DOWNLOAD_SITES = False
 DELETE_HTML_FILES = True
 
 url_base = 'https://understat.com/match/'

@@ -4,7 +4,8 @@ import os
 import requests
 import json
 
-from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, BLOCKED_KEY, DOWNLOAD_SITES, DELETE_HTML_FILES
+from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, BLOCKED_KEY, DOWNLOAD_SITES, \
+    DELETE_HTML_FILES, COLUMNS_EXCEL
 
 
 def parsing(s: str):
@@ -73,11 +74,16 @@ def create_final_csv_file(start_game, end_game):
                     m = match[a_h][num]
                     m['match_id'] = match_id
                     m = delete_keys(m)
-                    w = csv.DictWriter(f, m.keys(), delimiter=";")
+
+                    w = csv.DictWriter(f, COLUMNS_EXCEL, delimiter=";")
                     if not is_write_header:
                         w.writeheader()
                         is_write_header = True
-                    w.writerow(m)
+                    s=''
+                    for k in COLUMNS_EXCEL:
+                        s += f'{m.get(k)};'
+                    s+='\n'
+                    f.write(s)
             print(f'[OK]\t{match_id}')
 
 
