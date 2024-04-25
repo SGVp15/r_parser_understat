@@ -63,8 +63,6 @@ def create_final_csv_file(start_game, end_game):
         is_write_header = False
         for match_id in range(start_game, end_game + 1):
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'{match_id}.html')))
-            with open(os.path.join(json_dir, f'{match_id}.json')) as json_file:
-                match: dict = json.loads(json_file.read())
             if type(match) is not dict or not match:
                 print(f'[Error]\t{match_id}')
                 continue
