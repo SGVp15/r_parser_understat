@@ -3,16 +3,16 @@ import csv
 import json
 import os
 import re
+
+import aiofiles
 import aiohttp
-import requests
 
 from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, DOWNLOAD_SITES, \
-    DELETE_HTML_FILES, COLUMNS_EXCEL
+    DELETE_HTML_FILES, COLUMNS_EXCEL, json_dir
 
 
 def parsing(s: str):
     result = re.findall(r"var rostersData	= JSON\.parse\('(.*)'\)", s)
-    print()
     if not result:
         return ''
     s = result[0]
@@ -43,8 +43,8 @@ async def download_sites(start, end):
             async with session.get(url) as response:
                 if response.status == 200:
                     content = await response.read()
-                    with open(os.path.join(html_dir, f'{i}.html'), 'wb') as f:
-                        f.write(content)
+                    async with aiofiles.open(os.path.join(html_dir, f'{i}.html'), 'wb') as f:
+                        await f.write(content)
                     print(f'Downloaded [ {i} ]')
                 else:
                     print(f'Download [ {i} ]\t[Error]')
@@ -63,7 +63,9 @@ def create_final_csv_file(start_game, end_game):
         is_write_header = False
         for match_id in range(start_game, end_game + 1):
             match: dict = parsing(read_html_file(os.path.join(html_dir, f'{match_id}.html')))
-            if type(match) is not dict:
+            with open(os.path.join(json_dir, f'{match_id}.json')) as json_file:
+                match: dict = json.loads(json_file.read())
+            if type(match) is not dict or not match:
                 print(f'[Error]\t{match_id}')
                 continue
             for a_h in match.keys():
