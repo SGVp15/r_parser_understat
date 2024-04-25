@@ -4,7 +4,7 @@ import os
 import requests
 import json
 
-from config import url_base, export_csv_file, html_dir
+from config import url_base, export_csv_file, html_dir, start_game, end_game
 
 
 def parsing(s: str):
@@ -57,26 +57,24 @@ def del_files(start_game, end_game):
 def create_final_csv_file(start_game, end_game):
     with open(export_csv_file, mode='w', encoding='utf-8', newline='') as f:
         is_write_header = False
-        for i in range(start_game, end_game + 1):
-            match: dict = parsing(read_html_file(os.path.join(html_dir, f'{i}.html')))
+        for match_id in range(start_game, end_game + 1):
+            match: dict = parsing(read_html_file(os.path.join(html_dir, f'{match_id}.html')))
             if type(match) is not dict:
-                print(f'[Error]\t{i}')
+                print(f'[Error]\t{match_id}')
                 continue
             for a_h in match.keys():
                 for num in match.get(a_h).keys():
                     m = match[a_h][num]
+                    m['match_id'] = match_id
                     w = csv.DictWriter(f, m.keys(), delimiter=";")
                     if not is_write_header:
                         w.writeheader()
                         is_write_header = True
                     w.writerow(m)
-            print(f'[OK]\t{i}')
+            print(f'[OK]\t{match_id}')
 
 
 if __name__ == '__main__':
-    start_game = 21829  # с какого номера скачать матчи
-    end_game = 21850  # по какой включительно
-
-    # download_sites(start_game, end_game)
+    download_sites(start_game, end_game)
     create_final_csv_file(start_game, end_game)
-    # del_files(start_game, end_game)
+    del_files(start_game, end_game)

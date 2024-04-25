@@ -1,3 +1,14 @@
+start_game = 21829  # с какого номера скачать матчи
+end_game = 21850  # по какой включительно
+
+
+
+
+
+
+
+
+
 import os
 
 url_base = 'https://understat.com/match/'
