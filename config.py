@@ -3,7 +3,7 @@ import os
 START_GAME = 21829  # с какого номера скачать матчи
 END_GAME = 21850  # по какой включительно
 
-COLUMNS_EXCEL = ['player_id', 'team_id', 'match_id'] # колонки, которые нужно включить в CSV
+COLUMNS_EXCEL = ['player_id', 'team_id', 'match_id']  # колонки, которые нужно включить в CSV
 
 DOWNLOAD_SITES = True  # Скачивать сайты
 DELETE_HTML_FILES = False  # Удалять сайты
