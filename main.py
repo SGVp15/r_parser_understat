@@ -1,8 +1,9 @@
+import asyncio
 import csv
 import json
 import os
 import re
-
+import aiohttp
 import requests
 
 from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, DOWNLOAD_SITES, \
@@ -35,17 +36,18 @@ def read_html_file(file_name: str):
         return ''
 
 
-def download_sites(start, end):
-    for i in range(start, end + 1):
-        url = url_base + str(i)
-        r = requests.get(url)
-        s = r.text.encode('utf-8')
-        if r.status_code == 200:
-            with open(os.path.join(html_dir, f'{i}.html'), 'wb') as f:
-                f.write(s)
-            print(f'download [ {i} ]')
-        else:
-            print(f'download [ {i} ]\t[Error]')
+async def download_sites(start, end):
+    async with aiohttp.ClientSession() as session:
+        for i in range(start, end + 1):
+            url = url_base + str(i)
+            async with session.get(url) as response:
+                if response.status == 200:
+                    content = await response.read()
+                    with open(os.path.join(html_dir, f'{i}.html'), 'wb') as f:
+                        f.write(content)
+                    print(f'Downloaded [ {i} ]')
+                else:
+                    print(f'Download [ {i} ]\t[Error]')
 
 
 def del_files(start_game, end_game):
@@ -84,7 +86,7 @@ def create_final_csv_file(start_game, end_game):
 
 if __name__ == '__main__':
     if DOWNLOAD_SITES:
-        download_sites(START_GAME, END_GAME)
+        asyncio.run(download_sites(START_GAME, END_GAME))
     create_final_csv_file(START_GAME, END_GAME)
     if DELETE_HTML_FILES:
         del_files(START_GAME, END_GAME)

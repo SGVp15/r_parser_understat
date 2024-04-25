@@ -1,7 +1,7 @@
 import os
 
 START_GAME = 21829  # с какого номера скачать матчи
-END_GAME = 21850  # по какой включительно
+END_GAME = 21880  # по какой включительно
 
 COLUMNS_EXCEL = ['player_id', 'team_id', 'match_id']  # колонки, которые нужно включить в CSV
 
