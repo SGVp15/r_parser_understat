@@ -8,7 +8,7 @@ import aiofiles
 import aiohttp
 
 from config import url_base, export_csv_file, html_dir, START_GAME, END_GAME, DOWNLOAD_SITES, \
-    DELETE_HTML_FILES, COLUMNS_EXCEL, json_dir
+    DELETE_HTML_FILES, COLUMNS_EXCEL
 
 
 def parsing(s: str):
